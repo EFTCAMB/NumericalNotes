@@ -1,0 +1,11 @@
+# Ignore all the Latex products that are not relevant
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# ignore other stuff:
+*.DS_Store
