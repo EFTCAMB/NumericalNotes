@@ -36,7 +36,7 @@
 
 \begin{document}
 
-\title{EFTCAMB/EFTCosmoMC: Numerical Notes v2.0}
+\title{EFTCAMB/EFTCosmoMC: Numerical Notes Developers Version}
 %
 \author{Bin Hu$^{1}$, Marco Raveri$^{2,3,4}$, Noemi Frusciante$^{5}$, Alessandra Silvestri$^{1}$}
 %
@@ -53,7 +53,7 @@ $^{5}$ Sorbonne Universit$\acute{\text{e}}$s, UPMC Univ Paris 6 et CNRS, UMR 709
 
 \begin{abstract}
 EFTCAMB/EFTCosmoMC are publicly available patches to the CAMB/CosmoMC codes implementing the effective field theory approach to single scalar field dark energy and modified gravity models. With the present numerical notes we provide a guide to the technical details of the code. Moreover we reproduce, as they appear in the code, the complete set of the modified equations and the expressions for all the other relevant quantities used to construct these patches. We submit these notes to the arXiv to grant full and permanent access to this material which provides very useful guidance to the numerical implementation of the EFT framework. We will update this set of notes when relevant modifications to the EFTCAMB/EFTCosmoMC codes will be released. \\
-The present version is based on EFTCAMB/EFTCosmoMC$\_$Oct15.
+The present version is based on the developers version of EFTCAMB/EFTCosmoMC.
 \end{abstract}
 
 \pacs{98.80}
@@ -138,7 +138,7 @@ Models corresponding to the grey lines in the Flowchart~\ref{Fig:StructureFlowCh
 %
 \begin{figure}[!tp]
 \begin{center}
- \includegraphics[width=0.85\textwidth]{EFTCAMB_model_flags_V2}
+ \includegraphics[width=0.85\textwidth]{images/EFTCAMB_model_flags_V2}
  \caption{\label{Fig:StructureFlowChart} Flowchart of the structure of EFTCAMB: blue lines correspond to flags that are already present in the code, while grey lines are a sample of the models that will be implemented gradually in future code releases.} 
 \end{center}
 \end{figure}
@@ -154,7 +154,8 @@ In addition EFTCAMB takes advantage of the feedback mechanism of CAMB with the f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The structure of the modification}\label{Sec:ModStruct}
 %
-In order to implement the EFT formalism in the CAMB and CosmoMC codes we had to modify several files. We list them in this Section to help the user  keep track of what the EFT code is doing and how. \\
+In order to implement the EFT formalism in the CAMB and CosmoMC codes we had to modify several files. \\
+The complete, automatic, code documentation is available at \url{https://eftcamb.github.io/EFTCAMB/}. \\
 To further help the user in understanding our part of code and/or applying the EFT modification to an already modified version of CAMB/CosmoMC we enclosed every modification that we made inside the following commented code lines:
 %
 \begin{verbatim}
@@ -176,60 +177,29 @@ The tools provided by Github to visualize the history of the modifications of th
 
 The step by step guide to the EFTCAMB modification v1.0 and v1.1 will still be available at~\url{http://www.lorentz.leidenuniv.nl/~hu/codes/guide_EFTCAMB.html} and the  EFTCosmoMC one at~\url{http://www.lorentz.leidenuniv.nl/~hu/codes/guide_EFTCosmoMC.html}.
 
-%
-\subsection{Structure of the EFTCAMB modification} \label{Sec:EFTCAMBStruct}
-%
-The modification to the CAMB code is mainly implemented by modifying or adding the following files:
-%
-\begin{itemize}
-\item \verb|EFT_def.f90|: this file contains all the compile time EFTCAMB options and the definition of the parametrizations for the dark energy equation of state.
-\item \verb|EFT_designer.f90|: this file contains the module for designer models. 
-\item \verb|EFT_Horndeski.f90|: this file contains all the code regarding implementation of Horndeski models.
-\item \verb|EFT_functions.f90|: this file contains the definition of the EFT functions for the chosen model, in particular it contains the definitions of the \textit{pure} EFT parametrizations.
-\item \verb|EFT_main.f90|: this file contains a module that evaluates whether the considered DE/MG model is stable or not and a module that finds the time (if it exists) at which the considered model is so close to GR that it is pointless to evolve  the DE equation.
-\item \verb|EFTstabilitySpace.f90|: this file contains a program that can be compiled with the directive \texttt{make eftstability} to serve the purpose of making simple explorations of the stability region in parameter space for the theory of interest. This proves extremely helpful to understand and visualize the shape of the parameter space of a theory before exploring it with CosmoMC. For a direct application of this see Figure (1) in~\cite{Raveri:2014cka}.
-\item \verb|equations_EFT.f90|: this is a modified version of the standard CAMB equations file. It contains all the equations that the code needs to solve to get the full behaviour of perturbations in DE/MG models. These equations are reported in Section~\ref{Sec:ModEquations} and being written in terms of the EFT functions there is no need for the user to modify this file to include new DE/MG models in CAMB. 
-\item \verb|cmbmain.f90|: it includes modification of the standard CAMB file to run the designer code, the stability check and the return to GR detection just after EFTCAMB is launched. It also contains an optional code that will print the behaviour of perturbations in the DE/MG model that is considered. The latter part of code is not controlled by the parameter file so the user has to search for it in the code and manually activate it. It is also possible to use it at debug purposes.
-\end{itemize}
-%
-Several other files have to be marginally modified to complete the integration between CAMB and EFTCAMB. We encourage the user to inspect the released code for more details.
-
-\subsection{Structure of the EFTCosmoMC modification} \label{Sec:EFTCosmoMCStruct}
-To interface CosmoMC with EFTCAMB we had to modify the following files:
-%
-\begin{itemize}
-\item \verb|params_CMB_EFT.ini|: to specify the EFT model parameters that are sampled in the MCMC run and their priors. 
-\item \verb|common_batch1_EFT.ini| and \verb|common_batch2_EFT.ini|: to read cosmological parameters from \verb|params_CMB_EFT.ini|.
-\item \verb|EFT_params.ini|: to let the user choose the model via the selection flags.
-\item \verb|params_CMB.paramnames|: to add the names of the EFT model parameters.
-\item \verb|Makefile|: to compile the whole program with the EFTCAMB/EFTCosmoMC files.
-\item \verb|settings.f90|: to increase the number of theory parameters.
-\item \verb|CosmologyTypes.f90|: to add the EFT model parameters into the set of CosmoMC parameters and read the values of the model selection flags.
-\item \verb|CalcLike_Cosmology.f90|: to perform the stability check on the considered model for the specific choice of cosmological parameters that are being considered by the MCMC sampler and reject them if the theory is found to be unstable.
-\item \verb|Calculator_CAMB.f90|: to pass the EFT model parameters and the values of the model selection flags to EFTCAMB.
-\item \verb|Calculator_Cosmology.f90|: to make the stability module works with the newest version of CosmoMC.
-\item \verb|CosmologyParameterizations.f90|: to increase the number of CosmoMC parameters and associate the EFT parameter name to the one in the parameters files.
-\end{itemize}
-%
-
-As of now the EFTCosmoMC$\texttt{\_}$Oct15 code does not enforce automatically the compatibility between the model selection flags and the parameters that are included in the MCMC run. This means that the user has to do the following to properly launch a run:
-%
-\begin{itemize}
-\item At first the proper values for the EFT model selection flags have to be chosen in the file \verb|EFT_params.ini| according to the scheme in Figure~\ref{Fig:StructureFlowChart}.
-\item Then the user has to modify \verb|params_CMB_EFT.ini| to select the parameters to include in the run, their center values and priors.\\
-In order to exclude unwanted EFT parameters from the run, their \texttt{start width} and \texttt{propose width} have to be set to zero while for the parameters related to the previously selected model these two have to be chosen different from zero.\\
-Since EFTCAMB enforces \textit{viability priors} it is then sufficient that the standard CosmoMC priors are set to a value that reasonably includes the stable region in parameter space. \\
-We then suggest to set the center of a parameter relatively far from its GR limit as the parameter space of a given model might be not well behaved in the vicinity of that point.
-\item After these two steps the run can be launched in the standard way.
-\end{itemize}
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation of the modified equations}\label{Sec:ModEquations}
 The implementation of the background in the code is described at length in~\cite{Hu:2013twa}. Here we shall review some of the more technical aspects and reproduce the equations in the form in which they enter the code. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Background} \label{SubSec:EFTDesigner}
+\subsection{General EFT Background} \label{SubSec:FullEFTBackground}
+%
+Starting from the general expressions for the cosmological background in EFT we can write the expansion history as a function of the EFT functions directly.
+This results in:
+%
+\begin{align}
+\hub^2 =& \frac{1}{1+\Omega +a\Omega'} \bigg[ \frac{1}{3} \frac{a^2\rho_m}{m_0^2} +\frac{2}{3}\frac{ca^2}{m_0^2}  -\frac{1}{3} \frac{\Lambda a^2}{m_0^2}\bigg] \nonumber \\
+\dot{\hub} =& \frac{1}{1+\Omega+\frac{1}{2}a\Omega'} \bigg[ -\frac{1}{2}\left( 1+\Omega+2a\Omega' +a^2\Omega'' \right)\hub^2 -\frac{1}{2}\frac{P_ma^2}{m_0^2} -\frac{1}{2}\frac{\Lambda a^2}{m_0^2} \bigg] \nonumber \\
+\ddot{\hub} =& \frac{1}{1+\Omega +\frac{1}{2}a\Omega' } \bigg[ -\frac{1}{2}a\hub^3\left( 3\Omega' +4a\Omega'' +a^2\Omega'''\right) -\hub\dot{\hub}\left( 1+\Omega +\frac{7}{2}a\Omega' +\frac{3}{2}a^2\Omega'' \right) \nonumber \\
+&-\frac{1}{2}\left( \frac{\dot{P}_ma^2}{m_0^2} +2\hub \frac{P_ma^2}{m_0^2}\right) -\frac{1}{2}\left( \frac{\dot{\Lambda}a^2}{m_0^2} +2\hub \frac{\Lambda a^2}{m_0^2}\right) \bigg]
+\end{align}
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Designer Background} \label{SubSec:EFTDesignerBackground}
+%
 Given the high degree of freedom already at the level of background, and since the focus will be on the dynamics of linear perturbations, it is common to adopt a designer approach as described in~\cite{Gubitosi:2012hu,Bloomfield:2012ff}. First of all one writes the background equations as follows:
+%
 \begin{align}
 \mathcal{H}^2 =& \frac{8\pi G}{3} a^2 (\rho_m + \rho_{\rm DE} + \rho_{\nu})  \, ,\nonumber\\
 \dot{\mathcal{H}} =& -\frac{4\pi G}{3} a^2 \left(\rho_m + \rho_{\rm DE} + \rho_{\nu} + 3P_m + 3 P_{\rm DE} + 3 P_{\nu} \right) = -\frac{\mathcal{H}^2}{2} - \frac{8 \pi G a^2 P_{\rm tot}}{2} \, ,\nonumber\\
@@ -237,6 +207,7 @@ Given the high degree of freedom already at the level of background, and since t
   & +8 \pi G a^2 \left( \frac{\hub}{6}\rho_{\nu} -\frac{\hub}{2}P_{\nu} -\frac{1}{2}\dot{P}_{\nu} \right)
 \label{Eq:BackDesigner}
 \end{align}
+%
 where the prime stands for derivative w.r.t. the scale factor $a$, $\{\rho_m,P_m\}$ are the energy density and pressure of  matter (e.g.  dark matter, radiation and massless neutrinos)  and $\{\rho_{\rm DE},P_{\rm DE}\}$ encode the contributions from the extra scalar field into the form of an energy density and pressure of dark energy. For the matter components, one has the following continuity equations, and corresponding solutions:
 \begin{align}
 & \dot{\rho}_{m} + 3 \mathcal{H}\left(\rho_{m} + P_{m} \right)=0 \, ,& & \rho_{m}=\frac{3 H_0^2}{8 \pi G} \,\Omega_{m}^0\, a^{-3(1+w_m)} \, , \nonumber\\
@@ -260,23 +231,6 @@ We illustrate in the next Section~\ref{SubSec:DeEOS} the models that are current
 \end{align}
 
 As discussed in the Sections~\ref{Sec:PureEFTmodels} and~\ref{Sec:MatchingEFT}, depending on whether one wants to implement a \emph{pure} or \emph{mapping} EFT model, the choice for $\Omega$ changes. After fixing the expansion history, in the former case one selects an ans$\ddot{\text{a}}$tz for $\Omega(a)$, while in the latter case one determines via the matching the $\Omega(a)$ corresponding to the chosen model. In this case one has to separately solve the background equations for the given model, which might be done with a model-specific designer approach. In fact, this is the methodology we adopt for $f(R)$ models (see Section~\ref{SubSec:DesignerFR}).
-
-Finally, for the purposes of the code, it is useful to compute the following EFT dark fluid components that can be derived from eq.~(10) of~\cite{Hu:2013twa}:
-%
-\begin{align}\label{Eq:EFTbackgroundDensity}
-%
-\frac{\rho_Q a^2}{m_0^2} =& 2 \frac{c a^2}{m_0^2} -\frac{\Lambda a^2}{m_0^2} - 3a \mathcal{H}^2 \Omega^\prime \, , & & [\text{Mpc}^{-2}]   \\ 
-%
-\frac{P_Q a^2}{m_0^2} =& \frac{\Lambda a^2}{m_0^2} + a^2 \mathcal{H}^2\Omega^{\prime \prime} + a \dot{\mathcal{H}} \Omega^\prime + 2 a \mathcal{H}^2 \Omega^\prime \, , 	& & [\text{Mpc}^{-2}]  \\
-%
-\frac{\dot{\rho}_Q a^2}{m_0^2} =& -3 \mathcal{H}\left(\frac{\rho_Q a^2}{m_0^2}+ \frac{P_Q a^2}{m_0^2} \right) + 3 a \mathcal{H}^3 \Omega^\prime \, , & & [\text{Mpc}^{-3}]  \\
-%
-\frac{\dot{P_Q} a^2}{m_0^2} =&\frac{\dot{\Lambda}a^2}{m_0^2}+ a^3 \mathcal{H}^3\Omega^{\prime\prime\prime}+3a^2\mathcal{H}\dot{\mathcal{H}}\Omega^{\prime\prime}+a\Omega^{\prime}\ddot{\mathcal{H}}+3a\mathcal{H}\dot{\mathcal{H}}\Omega^{\prime}+2a^2\mathcal{H}^3\Omega^{\prime\prime}-2a\mathcal{H}^3\Omega^{\prime} \, .
-              & &   [\text{Mpc}^{-3}]         
-%
-%(\rho_Q + P_Q)\frac{a^2}{m_0^2} =& 2\frac{c a^2}{m_0^2}+ a^2 \mathcal{H}^2 \Omega^{\prime\prime} + a \Omega^{\prime} %\left(\dot{\mathcal{H}} - \mathcal{H}^2\right) & & [\text{Mpc}^{-2}]
-\end{align}
-%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Effective Dark Energy equation of state parametrizations}\label{SubSec:DeEOS}
@@ -328,6 +282,28 @@ In code notation: $w_0 = \texttt{EFTw0}$, $w_a = \texttt{EFTwa}$, $w_2 = \texttt
 %
 These definitions of $w_{\rm DE}$ are shared by the pure EFT and designer EFT modules and can be consistently used for both choices of model.
 %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Other Background Quantities} \label{SubSec:EFTBackgroundQ}
+%
+
+Finally, for the purposes of the code, it is useful to compute the following EFT dark fluid components that can be derived from eq.~(10) of~\cite{Hu:2013twa}:
+%
+\begin{align}\label{Eq:EFTbackgroundDensity}
+%
+\frac{\rho_Q a^2}{m_0^2} =& 2 \frac{c a^2}{m_0^2} -\frac{\Lambda a^2}{m_0^2} - 3a \mathcal{H}^2 \Omega^\prime \, , & & [\text{Mpc}^{-2}]   \\ 
+%
+\frac{P_Q a^2}{m_0^2} =& \frac{\Lambda a^2}{m_0^2} + a^2 \mathcal{H}^2\Omega^{\prime \prime} + a \dot{\mathcal{H}} \Omega^\prime + 2 a \mathcal{H}^2 \Omega^\prime \, , 	& & [\text{Mpc}^{-2}]  \\
+%
+\frac{\dot{\rho}_Q a^2}{m_0^2} =& -3 \mathcal{H}\left(\frac{\rho_Q a^2}{m_0^2}+ \frac{P_Q a^2}{m_0^2} \right) + 3 a \mathcal{H}^3 \Omega^\prime \, , & & [\text{Mpc}^{-3}]  \\
+%
+\frac{\dot{P_Q} a^2}{m_0^2} =&\frac{\dot{\Lambda}a^2}{m_0^2}+ a^3 \mathcal{H}^3\Omega^{\prime\prime\prime}+3a^2\mathcal{H}\dot{\mathcal{H}}\Omega^{\prime\prime}+a\Omega^{\prime}\ddot{\mathcal{H}}+3a\mathcal{H}\dot{\mathcal{H}}\Omega^{\prime}+2a^2\mathcal{H}^3\Omega^{\prime\prime}-2a\mathcal{H}^3\Omega^{\prime} \, .
+              & &   [\text{Mpc}^{-3}]         
+%
+%(\rho_Q + P_Q)\frac{a^2}{m_0^2} =& 2\frac{c a^2}{m_0^2}+ a^2 \mathcal{H}^2 \Omega^{\prime\prime} + a \Omega^{\prime} %\left(\dot{\mathcal{H}} - \mathcal{H}^2\right) & & [\text{Mpc}^{-2}]
+\end{align}
+%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Linear Scalar Perturbations in EFT: code notation} \label{SubSec:EFTPe}
 %
@@ -337,7 +313,7 @@ will not change with respect to their GR form. For this reason the evolution equ
 %
 \begin{align}
 & A(\tau,k)\,\ddot{\pi} + B(\tau,k)\,\dot{\pi} + C(\tau)\,\pi + k^2\,D(\tau,k)\,\pi + H_0 E(\tau,k) =0 \label{Eq:PiFieldEquation} \,,\\
-& k\dot{\eta} = \textcolor{red}{\f{1}{X}}\l[\frac{1}{1+\Omega} \frac{a^2(\rho_{m,\nu}+P_{m,\nu})}{m_0^2}\frac{v_{m,\nu}}{2} + \frac{k^2}{3H_0}F \textcolor{red}{+(U-X)\f{\mathcal{Z}k^2}{3}}\r]   \label{Eq:EtaEquation}\,,
+& k\dot{\eta} = \f{1}{X}\l[\frac{1}{1+\Omega} \frac{a^2(\rho_{m,\nu}+P_{m,\nu})}{m_0^2}\frac{v_{m,\nu}}{2} + \frac{k^2}{3H_0}F +(U-X)\f{\mathcal{Z}k^2}{3}\r]   \label{Eq:EtaEquation}\,,
 \end{align}
 %
 while constraint equations take the form:
