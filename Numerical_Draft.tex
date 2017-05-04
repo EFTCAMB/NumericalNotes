@@ -325,7 +325,7 @@ while constraint equations take the form:
 %
 \ddot{\sigma} =& \f{1}{X}\l[ -2\l(1+V \r)\l(\dot{\mathcal{H}}\sigma +\hub \dot{\sigma} \r) -2\hub \sigma \dot{V} +k \dot{\eta} +\frac{1}{k}\frac{a \mathcal{H} \Omega^\prime}{(1+\Omega)^2}\frac{a^2P_{m,\nu}}{m_0^2}\Pi_{m,\nu} -\frac{1}{k(1+\Omega)}\frac{d}{d\tau}\left(\frac{a^2P_{m,\nu}}{m_0^2}\Pi_{m,\nu} \right)-\dot{{X}}\dot{\sigma} +\f{\dot{N}}{H_0}\r] \label{Eq:SigmadotdotEquation}\,,\\
 %
-\mathcal{Z} =& \f{1}{G}\l[\frac{k\eta}{\mathcal{H}} + \frac{1}{2\mathcal{H}(1+\Omega)k}\frac{a^2 \delta\rho_{m,\nu}}{m_0^2} + \frac{{L}}{kH_0} \r] \label{Eq:Zequation}\,,\\
+\mathcal{Z} =& \f{1}{G}\l[\textcolor{red}{\mathcal{Q}}\frac{k\eta}{\mathcal{H}} + \frac{1}{2\mathcal{H}(1+\Omega)k}\frac{a^2 \delta\rho_{m,\nu}}{m_0^2} + \frac{{L}}{kH_0} \r] \label{Eq:Zequation}\,,\\
 %
 \dot{\mathcal{Z}} =&\f{1}{U}\l[ -2 \mathcal{H} \l[1 + Y\r] \mathcal{Z} + k\eta -\frac{1}{1+\Omega}\frac{3}{2k}\frac{a^2\delta P_{m,\nu}}{m_0^2} - \frac{3}{2k(1+\Omega)}\frac{{M}}{H_0}\r] \,,\nonumber \\
  =& \f{1}{U}\l[-2\hub\mathcal{Z}\l(1+Y-\f{G}{2}\r) -\f{1}{2(1+\Omega)k}\f{a^2\delta\rho_{m,\nu}}{m_0^2} -\f{3}{2(1+\Omega)k}\f{a^2\delta P_{m,\nu}}{m_0^2} -\f{\hub L}{H_0 k} -\f{3}{2(1+\Omega)k}\f{M}{H_0} \r] \label{Eq:ZdotEquation}\,,
@@ -412,7 +412,8 @@ We adopt the following convention: $F=\sum \Delta F$ and the same applies to all
 %
 \Delta U=&1, \, & & [\,\, ] \, \nonumber \\
 %
-\Delta V=&\f{1}{2}\f{a\Omega'}{1+\Omega} \,, \hspace{1cm} \Delta \dot{V}=\f{a\hub}{2(1+\Omega)}\l[\Omega' +a\Omega'' -\f{a\Omega'^{\,2}}{1+\Omega} \r] \, . & & [\,\, , \text{Mpc}^{-1}] \,
+\Delta V=&\f{1}{2}\f{a\Omega'}{1+\Omega} \,, \hspace{1cm} \Delta \dot{V}=\f{a\hub}{2(1+\Omega)}\l[\Omega' +a\Omega'' -\f{a\Omega'^{\,2}}{1+\Omega} \r] \, , & & [\,\, , \text{Mpc}^{-1}]\nonumber \\ \,
+\textcolor{red}{\Delta\mathcal{Q}}=& 1\,, & & [\,\, ]
 \end{align}}
 %
 \item[] \underline{$(\delta g^{00})^2$}:\\
@@ -487,7 +488,9 @@ We adopt the following convention: $F=\sum \Delta F$ and the same applies to all
 %
 &\Delta{ N}=\f{2\gamma_5k}{1+\Omega}\left(\dot{\pi}+\hub\pi\right) \, , & &  [\text{Mpc}^{-2}] \, \nonumber\\
 %
-&\Delta\dot{N} = \f{2\gamma_5k}{1+\Omega}\l(\ddot{\pi}+\hub\dot{\pi}+\dot{\hub}\pi\r)+\f{2ak\hub}{1+\Omega}\l(\dot{\pi}+\hub\pi\r)\l[ \gamma_5^\prime-\f{\gamma_5\Omega'}{1+\Omega}\r]  \, .& &  [\text{Mpc}^{-3}] \,
+&\Delta\dot{N} = \f{2\gamma_5k}{1+\Omega}\l(\ddot{\pi}+\hub\dot{\pi}+\dot{\hub}\pi\r)+\f{2ak\hub}{1+\Omega}\l(\dot{\pi}+\hub\pi\r)\l[ \gamma_5^\prime-\f{\gamma_5\Omega'}{1+\Omega}\r]  \, ,& &  [\text{Mpc}^{-3}] \,\nonumber\\
+&\textcolor{red}{\Delta\mathcal{Q}= \f{2\gamma_5}{1+\Omega}}\,, & & [\,\, ] \nonumber \\
+&\textcolor{red}{\Delta L= \f{2\gamma_5}{1+\Omega}k^2 \pi}\,.& &  [\text{Mpc}^{-2}]
 \end{align}}
 %
 \item[] \underline{ $\rm(g^{\mu\nu}+n^\mu n^\nu)\partial_\mu\delta g^{00}\partial_\nu \delta g^{00}$}:\\
@@ -577,7 +580,7 @@ The EFTCAMB code allows the user to have full control over the prior that are en
 \item \texttt{EFT$\_$mathematical$\_$stability}: decides whether to enforce requirements of mathematical stability;
 \item \texttt{EFT$\_$physical$\_$stability}: establishes whether to use physical viability conditions;
 \item \texttt{EFTAdditionalPriors}: determines whether to use the additional priors on cosmological parameters;
-\item \texttt{MinkowskyPriors}: for some theories stability on Minkowsky background is known and leads to constraints on theory parameters. This flag decides whether to enforce them or not;
+\item \textcolor{red}{\texttt{MinkowskyPriors}: for some theories stability on Minkowsky} background is known and leads to constraints on theory parameters. This flag decides whether to enforce them or not; \textcolor{red}{Minkowski, I did not correct it because I do not know if it is a code notation, it is better if MARCO or BIN check it}
 \end{itemize}
 %
 
@@ -790,11 +793,11 @@ To implement this parametrization into EFTCAMB we need first to invert the previ
 %
 Then we can compute the following derived quantities that are needed for the equations in the code:
 \begin{align}
-\Omega'(a) &=  \tilde{M}\alpha_T^\prime+ \tilde{M}^\prime(\alpha_T+1)\,,  \nonumber \\ 
-\Omega''(a) &= 2\tilde{M}^\prime \alpha_T^\prime +\tilde{M}\alpha_T^{\prime\prime}+\tilde{M}^{\prime\prime}(\alpha_T+1)\,,  \nonumber \\
-\Omega'''(a) &=   3\tilde{M}^{\prime\prime}\alpha_T^\prime+3\tilde{M}^\prime\alpha_T^{\prime\prime}+\tilde{M}\alpha_T^{\prime\prime\prime}+\tilde{M}^{\prime\prime\prime}(\alpha_T+1)\,,  \nonumber \\
+\Omega'(a) &=  \textcolor{red}{(1+\tilde{M})}\alpha_T^\prime+ \tilde{M}^\prime(\alpha_T+1)\,,  \nonumber \\ 
+\Omega''(a) &= 2\tilde{M}^\prime \alpha_T^\prime + \textcolor{red}{(1+\tilde{M})}\alpha_T^{\prime\prime}+\tilde{M}^{\prime\prime}(\alpha_T+1)\,,  \nonumber \\
+\Omega'''(a) &=   3\tilde{M}^{\prime\prime}\alpha_T^\prime+3\tilde{M}^\prime\alpha_T^{\prime\prime}+ \textcolor{red}{(1+\tilde{M})}\alpha_T^{\prime\prime\prime}+\tilde{M}^{\prime\prime\prime}(\alpha_T+1)\,,  \nonumber \\
 \gamma_1'(a) &= -\f{2}{a}\gamma_1+\f{1}{4H_0^2a^2}\l[\alpha_K^\prime(1+ \tilde{M})\hub^2+\alpha_K\tilde{M}^\prime\hub^2+2\alpha_K(1+ \tilde{M})\f{\dot{\hub}}{a}-\f{2c^\prime a^2}{m_0^2}-\f{4ca}{m_0^2}\r] \,,  \nonumber \\
-\gamma_2'(a) &=  -\f{\gamma_2}{2} -\f{1}{aH_0}\l[-2(1+ \tilde{M})(\alpha_B^\prime\hub+\alpha_B \f{\dot{\hub}}{a\hub}) -2\alpha_B\hub \tilde{M}^\prime+ \hub\Omega^\prime+\f{\dot{\hub}}{\hub}\Omega^\prime+a\hub\Omega^{\prime\prime}\r] \,,  \nonumber \\
+\gamma_2'(a) &=  -\f{\gamma_2}{\textcolor{red}{a}} -\f{1}{aH_0}\l[-2(1+ \tilde{M})(\alpha_B^\prime\hub+\alpha_B \f{\dot{\hub}}{a\hub}) -2\alpha_B\hub \tilde{M}^\prime+ \hub\Omega^\prime+\f{\dot{\hub}}{\hub}\Omega^\prime+a\hub\Omega^{\prime\prime}\r] \,,  \nonumber \\
 \gamma_3'(a) &= -(1+ \tilde{M})\alpha_T^\prime- \alpha_T \tilde{M}^\prime\,,  \nonumber \\
 \gamma_4(a) &= -\gamma_3\,,  \nonumber \\
 \gamma_4'(a) &= -\gamma_3^\prime\,,  \nonumber \\
