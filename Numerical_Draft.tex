@@ -36,24 +36,25 @@
 
 \begin{document}
 
-\title{EFTCAMB/EFTCosmoMC: Numerical Notes Developers Version}
+\title{EFTCAMB/EFTCosmoMC: Numerical Notes v3.0}
 %
-\author{Bin Hu$^{1}$, Marco Raveri$^{2,3,4}$, Noemi Frusciante$^{5}$, Alessandra Silvestri$^{1}$}
+\author{Bin Hu$^{1}$, Marco Raveri$^{2,3}$, Noemi Frusciante$^{4}$, Alessandra Silvestri$^{3}$}
 %
 \smallskip
-\affiliation{$^{1}$ Institute Lorentz, Leiden University, PO Box 9506, Leiden 2300 RA, The Netherlands \\
+\affiliation{$^{1}$ Department of Astronomy, Beijing Normal University, Beijing, 100875, China\\
 \smallskip 
-$^{2}$ SISSA - International School for Advanced Studies, Via Bonomea 265, 34136, Trieste, Italy \\
+$^{2}$ Kavli Institute for Cosmological Physics, Department of Astronomy \& Astrophysics,
+Enrico Fermi Institute, The University of Chicago, Chicago, IL 60637, USA\\
 \smallskip
-$^{3}$ INFN, Sezione di Trieste, Via Valerio 2, I-34127 Trieste, Italy \\
+$^{3}$  Institute Lorentz, Leiden University, PO Box 9506, Leiden 2300 RA, The Netherlands \\
 \smallskip
-$^{4}$ INAF-Osservatorio Astronomico di Trieste, Via G.B. Tiepolo 11, I-34131 Trieste, Italy \\
-\smallskip
-$^{5}$ Sorbonne Universit$\acute{\text{e}}$s, UPMC Univ Paris 6 et CNRS, UMR 7095, Institut d'Astrophysique de Paris, GReCO, 98 bis bd Arago, 75014 Paris, France}
+$^{4}$ Instituto de Astrof$\acute{\text{i}}$sica e Ci$\hat{\text{e}}$ncias do Espaco, 
+Faculdade de Ci$\hat{\text{e}}$ncias da Universidade de Lisboa, Lisbon, Portugal}
 
 \begin{abstract}
-EFTCAMB/EFTCosmoMC are publicly available patches to the CAMB/CosmoMC codes implementing the effective field theory approach to single scalar field dark energy and modified gravity models. With the present numerical notes we provide a guide to the technical details of the code. Moreover we reproduce, as they appear in the code, the complete set of the modified equations and the expressions for all the other relevant quantities used to construct these patches. We submit these notes to the arXiv to grant full and permanent access to this material which provides very useful guidance to the numerical implementation of the EFT framework. We will update this set of notes when relevant modifications to the EFTCAMB/EFTCosmoMC codes will be released. \\
-The present version is based on the developers version of EFTCAMB/EFTCosmoMC.
+EFTCAMB/EFTCosmoMC are publicly available patches to the CAMB/CosmoMC codes implementing the effective field theory approach to single scalar field dark energy and modified gravity models. With the present numerical notes we provide a guide to the technical details of the code. Moreover we reproduce, as they appear in the code, the complete set of the modified equations and the expressions for all the other relevant quantities used to construct these patches. We submit these notes to the arXiv to grant full and permanent access to this material which provides very useful guidance to the numerical implementation of the EFT framework. We will update this set of notes when relevant modifications to the EFTCAMB/EFTCosmoMC codes will be released. 
+
+The present version is based on the version of EFTCAMB/EFTCosmoMC$\_$Sep17. 
 \end{abstract}
 
 \pacs{98.80}
@@ -88,7 +89,9 @@ where $m_0^2$ is the Planck mass, overdots represent derivatives with respect to
 In~\cite{Hu:2013twa,Raveri:2014cka}, we introduced EFTCAMB which is a patch of  the publicly available  Einstein-Boltzmann solver, CAMB~\cite{CAMB,Lewis:1999bs}. The code implements the EFT approach, allowing to study the linear cosmological perturbations  in a model-independent framework via the \textit{pure} EFT procedure, although it ensures to investigate the dynamics of linear perturbations of specific single scalar field DE/MG models via the \textit{mapping} EFT procedure, once the matching is worked out. EFTCAMB evolves the full perturbation equations on all linear scales without relying on any quasi static approximation. Moreover it checks the stability conditions of perturbations  in the dark sector in order to ensure that the underlying gravitational theory is acceptable.
 Finally, it enables to specify the expansion history by choosing a DE equation of state among several common parametrizations, allowing phantom-divide crossings.
 To interface EFTCAMB with cosmological observations we equipped it with a modified version of 
-CosmoMC~\cite{Lewis:2002ah}, what we dub EFTCosmoMC~\cite{Raveri:2014cka}. EFTCosmoMC  allows to practically perform tests of gravity and get constraints on the parameter space using cosmological data sets. The stability conditions implemented in EFTCAMB translate into EFTCosmoMC  as {\it viability priors} to impose  on parameters describing the dark sector. The first release of the code includes data such as \textit{Planck}, WP, BAO and \textit{Planck} lensing. The EFTCAMB/EFTCosmoMC package is  now publicly available for download at~\url{http://www.lorentz.leidenuniv.nl/~hu/codes/}.\\
+CosmoMC~\cite{Lewis:2002ah}, what we dub EFTCosmoMC~\cite{Raveri:2014cka}. EFTCosmoMC  allows to practically perform tests of gravity and get constraints on the parameter space using cosmological data sets. The stability conditions implemented in EFTCAMB translate into EFTCosmoMC  as {\it viability priors} to impose  on parameters describing the dark sector. The first release of the code includes data such as \textit{Planck}, WP, BAO and \textit{Planck} lensing. The present version is fully compatible with all data sets available in CosmoMC. The EFTCAMB/EFTCosmoMC package is now publicly available for download at~\url{http://www.eftcamb.org}.
+
+After EFTCAMB some other general purpose Einstein-Boltzmann codes modeling scalar-tensor theories have been developed, such as hi-class~\cite{Zumalacarregui:2016pph} and COOP~\cite{Huang:2015srv}.  In a recent paper~\cite{Bellini:2017avd} it has been shown that EFTCAMB (Sep17) and hi-class  agree to a high level of accuracy, while their agreement with COOP is sufficiently high only on large scales. It has been also shown that the implementation of the low-energy Ho\v rava gravity model in EFTCAMB gives the same results of the LVDM CLASS code~\cite{Blas:2012vn}.
 
 Throughout this Numerical Notes we will always use the following conventions:
 \begin{itemize}
@@ -101,7 +104,7 @@ Throughout this Numerical Notes we will always use the following conventions:
 &\gamma_1=\frac{M^4_2}{m_0^2H_0^2}, \,\,\,\,\,\gamma_2=\frac{\bar{M}^3_1}{m_0^2H_0}, \,\,\,\,\,\gamma_3=\frac{\bar{M}^2_2}{m_0^2}, \nonumber \\
 &\gamma_4=\frac{\bar{M}^2_3}{m_0^2}, \,\,\,\,\,\gamma_5=\frac{\hat{M}^2}{m_0^2},\,\,\,\,\,\gamma_6=\frac{m^2_2}{m_0^2}.
 \end{align}
-Let us notice that in this release version (v2.0) we have slightly changed the definition of the second order EFT functions w.r.t. the convention used in v1.0 and v1.1. These new definitions do not change the general structure and physics in the code, but they allow for a more direct and cleaner implementation of Horndeski models~\cite{Horndeski:1974wa,Deffayet:2009mn}. For the sake of clarity let us list the explicit correspondence between this new convention and that one used in the previous releases (v1.0 and v1.1), in terms of the $\alpha$'s:
+Let us notice that after v2.0 we have slightly changed the definition of the second order EFT functions w.r.t. the convention used in v1.0 and v1.1. These new definitions do not change the general structure and physics in the code, but they allow for a more direct and cleaner implementation of Horndeski models~\cite{Horndeski:1974wa,Deffayet:2009mn}. For the sake of clarity let us list the explicit correspondence between this new convention and that one used in the previous releases (v1.0 and v1.1), in terms of the $\alpha$'s:
 \be
 \gamma_1=\alpha_1^4, \,\,\,\,\,\gamma_2=\alpha_2^3, \,\,\,\,\,\gamma_3=\alpha_3^2,\,\,\,\,\,
 \gamma_4=\alpha_4^2, \,\,\,\,\,\gamma_5=\alpha_5^2,\,\,\,\,\,\gamma_6=\alpha_6^2.
@@ -120,26 +123,27 @@ The main code flag is \texttt{EFTflag}, which is the starting point after which 
 \begin{itemize}
 \item The number $\texttt{EFTflag}=0$ corresponds to the standard CAMB code. Every EFT modification to the code is automatically excluded by this choice.
 %
-\item  The number $\texttt{EFTflag}=1$ corresponds to \textit{pure} EFT models. The user needs then to select a model for the background expansion history via the \texttt{EFTwDE} flag. Various common parametrizations for the DE equation of state are natively included in the code.
+\item  The number $\texttt{EFTflag}=1$ corresponds to \textit{pure} EFT models. 
+The $\texttt{PureEFTmodel}$ flag controls which basis for pure EFT to use.
+For the choice $\texttt{PureEFTmodel}=1$ the user needs to select a model for the background expansion history via the \texttt{EFTwDE} flag. Various common parametrizations for the DE equation of state are natively included in the code.
 The implementation details of the dark energy equations of state can be found in Section~\ref{SubSec:DeEOS}.
 Finally, to fully specify the {\it pure} EFT model, one has to fix the EFT functions behaviour as functions of the scale factor $a$. The corresponding flags for the model selection are: \texttt{PureEFTmodelOmega} for the model selection of the EFT function $\Omega(a)$ and \texttt{PureEFTmodelGamma}$\text{i}$, with $\text{i}=1,..,6$ for the $\gamma_i(a)$ EFT functions. Some built-in models are already present in the code and can be selected with the corresponding number, see Flowchart~\ref{Fig:StructureFlowChart}. The details about these models can be found in Section~\ref{Sec:PureEFTmodels}.
 There is also the possibility to use the flag \texttt{PureEFTHorndeski} to restrict \textit{pure} EFT models to Horndeski one.  
 The code will then internally set the behaviour of the EFT functions $\gamma_4$, $\gamma_5$, $\gamma_6$ according to eq.~(\ref{Horndeski_condition}) in order to cancel high order derivatives, at this point choices made for these functions will be ignored (see Section~\ref{pureHorndeski} for more details).
 After setting these flags the user has to define the values of the EFT model parameters for the chosen model. Every other value of parameter and flag which do not concern the chosen model is automatically ignored.
 %
-\item The number $\texttt{EFTflag}=2$  corresponds to the designer \textit{mapping} EFT procedure. Also in this case the \texttt{EFTwDE} flag controls the background expansion history which works as in the previous case.\\
+\item The number $\texttt{EFTflag}=2$  corresponds to the implementation of alternative model-independent parametrizations in terms of EFT functions.   A lot of alternative parametrizations already present in literature can be completely described by using the versatility of the EFT approach allowing to preserve all the advantages of EFTCAMB. An alternative parametrization can be chosen by changing the flag $\texttt{AltParEFTmodel}$. See Section~\ref{Alternative} for details.
+\item The number $\texttt{EFTflag}=3$  corresponds to the designer \textit{mapping} EFT procedure. Also in this case the \texttt{EFTwDE} flag controls the background expansion history which works as in the previous case.\\
 For the \textit{mapping} case the user can investigate a particular DE/MG model once the matching with the EFT functions is provided and the background evolution has been implemented in the EFT code. \\
 The model selection flag for the \textit{mapping} EFT procedure is \texttt{DesignerEFTmodel}.
-Various models are already included in the code  (see the blue lines in the Flowchart~\ref{Fig:StructureFlowChart}) and their implementation details are presented in Section~\ref{Sec:MatchingEFT}. 
-Models corresponding to the grey lines in the Flowchart~\ref{Fig:StructureFlowChart} are some of the models that can be cast into the EFT formalism and that will be gradually implemented in future code releases.
-\item The number $\texttt{EFTflag}=3$  corresponds to the implementation of alternative model-independent parametrizations in terms of EFT functions.   A lot of alternative parametrizations already present in literature can be completely described by using the versatility of the EFT approach allowing to preserve all the advantages of EFTCAMB. See Section~\ref{Alternative} for details.
+Various models are already included in the code and their implementation details are presented in Section~\ref{Sec:MatchingEFT}. 
 \item The number $\texttt{EFTflag}=4$  corresponds to the full \textit{mapping} EFT procedure. In this case the background expansion history is not set by a choice of $w_{\rm DE}$ and a model has to be fully specified. The code will then solve the background equations for the given model to map it into the EFT framework. Low energy Ho\v rava gravity has been included as the first example of the implementation of full mapping models. More models will be gradually filled in the near future. See Section~\ref{Fullmapping} for details.
 \end{itemize}
 %
 \begin{figure}[!tp]
 \begin{center}
- \includegraphics[width=0.85\textwidth]{images/EFTCAMB_model_flags_V2}
- \caption{\label{Fig:StructureFlowChart} Flowchart of the structure of EFTCAMB: blue lines correspond to flags that are already present in the code, while grey lines are a sample of the models that will be implemented gradually in future code releases.} 
+ \includegraphics[width=\textwidth]{images/EFTCAMB_model_flags_V3}
+ \caption{\label{Fig:StructureFlowChart} Flowchart of the structure of EFTCAMB: blue lines correspond to flags that are already present in the code.} 
 \end{center}
 \end{figure}
 %
@@ -175,7 +179,7 @@ for the CosmoMC part.\\
 We also provide a developers version of the code at~\url{https://github.com/EFTCAMB/EFTCAMB}.
 The tools provided by Github to visualize the history of the modifications of the code will, from now on, supersede the guides to the EFTCAMB/EFTCosmoMC modifications.
 
-The step by step guide to the EFTCAMB modification v1.0 and v1.1 will still be available at~\url{http://www.lorentz.leidenuniv.nl/~hu/codes/guide_EFTCAMB.html} and the  EFTCosmoMC one at~\url{http://www.lorentz.leidenuniv.nl/~hu/codes/guide_EFTCosmoMC.html}.
+The step by step guide to the EFTCAMB modification v1.0 and v1.1 and v.2.0 will still be available at~\url{http://www.eftcamb.org/codes/guide_EFTCAMB.html} and the  EFTCosmoMC one at~\url{http://www.eftcamb.org/codes/guide_EFTCosmoMC.html}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation of the modified equations}\label{Sec:ModEquations}
@@ -226,7 +230,7 @@ We illustrate in the next Section~\ref{SubSec:DeEOS} the models that are current
 \frac{\dot{c} a^2}{m_0^2} =& \frac{\mathcal{H}}{2}\left(-3 \left(1+w_{\rm DE}\right)^2+ a w^\prime_{\rm DE} \right)\frac{\rho_{\rm DE} a^2}{m_0^2} -\Omega \left(\ddot{\mathcal{H}}-4 \mathcal{H} \dot{\mathcal{H}} + 2 \mathcal{H}^3 \right)  + \frac{a\Omega^\prime}{2} \left(-\ddot{\mathcal{H}} + \mathcal{H}\dot{\mathcal{H}} +\mathcal{H}^3  \right) \nonumber \\
  &  +\frac{1}{2}a^2 \mathcal{H} \Omega^{\prime \prime}\left(\mathcal{H}^2 -3 \dot{\mathcal{H}} \right) -\frac{1}{2} a^3 \mathcal{H}^3 \Omega^{\prime\prime\prime}\, , & & [\text{Mpc}^{-3}] \\
 %
-\frac{\dot{\Lambda} a^2}{m_0^2} =& -2\Omega\left(\ddot{\mathcal{H}}- \mathcal{H} \dot{\mathcal{H}} -\mathcal{H}^3 \right) -a\Omega^{\prime}\left(4\mathcal{H}\dot{\mathcal{H}}+\ddot{\mathcal{H}}\right)  - a^2\Omega^{\prime\prime}\mathcal{H}\left(2\mathcal{H}^2+3\dot{\mathcal{H}}\right)-a^3\mathcal{H}^3\Omega^{\prime\prime\prime} \nonumber\\
+\frac{\dot{\Lambda} a^2}{m_0^2} =& -2\Omega\left(\ddot{\mathcal{H}}- \mathcal{H} \dot{\mathcal{H}} -\mathcal{H}^3 \right) -a\Omega^{\prime}\left(5\mathcal{H}\dot{\mathcal{H}}+\ddot{\mathcal{H}} -\mathcal{H}^3\right)  - a^2\Omega^{\prime\prime}\mathcal{H}\left(2\mathcal{H}^2+3\dot{\mathcal{H}}\right)-a^3\mathcal{H}^3\Omega^{\prime\prime\prime} \nonumber\\
         & + \frac{\rho_{\rm DE} a^2}{m_0^2} \mathcal{H}\bigg[a w^\prime_{\rm DE} -3 w_{\rm DE}(1+w_{\rm DE}) \bigg] \, .& & [\text{Mpc}^{-3}]
 \end{align}
 
@@ -325,7 +329,7 @@ while constraint equations take the form:
 %
 \ddot{\sigma} =& \f{1}{X}\l[ -2\l(1+V \r)\l(\dot{\mathcal{H}}\sigma +\hub \dot{\sigma} \r) -2\hub \sigma \dot{V} +k \dot{\eta} +\frac{1}{k}\frac{a \mathcal{H} \Omega^\prime}{(1+\Omega)^2}\frac{a^2P_{m,\nu}}{m_0^2}\Pi_{m,\nu} -\frac{1}{k(1+\Omega)}\frac{d}{d\tau}\left(\frac{a^2P_{m,\nu}}{m_0^2}\Pi_{m,\nu} \right)-\dot{{X}}\dot{\sigma} +\f{\dot{N}}{H_0}\r] \label{Eq:SigmadotdotEquation}\,,\\
 %
-\mathcal{Z} =& \f{1}{G}\l[\textcolor{red}{\mathcal{Q}}\frac{k\eta}{\mathcal{H}} + \frac{1}{2\mathcal{H}(1+\Omega)k}\frac{a^2 \delta\rho_{m,\nu}}{m_0^2} + \frac{{L}}{kH_0} \r] \label{Eq:Zequation}\,,\\
+\mathcal{Z} =& \f{1}{G}\l[\mathcal{Q}\frac{k\eta}{\mathcal{H}} + \frac{1}{2\mathcal{H}(1+\Omega)k}\frac{a^2 \delta\rho_{m,\nu}}{m_0^2} + \frac{{L}}{kH_0} \r] \label{Eq:Zequation}\,,\\
 %
 \dot{\mathcal{Z}} =&\f{1}{U}\l[ -2 \mathcal{H} \l[1 + Y\r] \mathcal{Z} + k\eta -\frac{1}{1+\Omega}\frac{3}{2k}\frac{a^2\delta P_{m,\nu}}{m_0^2} - \frac{3}{2k(1+\Omega)}\frac{{M}}{H_0}\r] \,,\nonumber \\
  =& \f{1}{U}\l[-2\hub\mathcal{Z}\l(1+Y-\f{G}{2}\r) -\f{1}{2(1+\Omega)k}\f{a^2\delta\rho_{m,\nu}}{m_0^2} -\f{3}{2(1+\Omega)k}\f{a^2\delta P_{m,\nu}}{m_0^2} -\f{\hub L}{H_0 k} -\f{3}{2(1+\Omega)k}\f{M}{H_0} \r] \label{Eq:ZdotEquation}\,,
@@ -348,15 +352,15 @@ The coefficients for the $\pi$ field equation, once a complete de-mixing is achi
 %
 \begin{align}
 %
-A =& \f{c a^2}{m_0^2}+2 a^2 H_0^2 \gamma_1 +\f{3}{2}a^2 \f{\l(\hub \Omega' + H_0\gamma_2 \r)^2}{2(1+\Omega) + \textcolor{red}{3}\gamma_3 +\gamma_4} + 4 \gamma_6 k^2 \,, \\
+A =& \f{c a^2}{m_0^2}+2 a^2 H_0^2 \gamma_1 +\f{3}{2}a^2 \f{\l(\hub \Omega' + H_0\gamma_2 \r)^2}{2(1+\Omega) + 3\gamma_3 +\gamma_4} + 4 \gamma_6 k^2 \,, \\
 %
 & \nonumber \\
 %
 B =& \f{\dot{c}a^2}{m_0^2} +4\hub \f{c a^2}{m_0^2} +8 a^2\hub H_0^2\l(\gamma_1 +a\f{\gamma_1^\prime}{4}\r) +4k^2\hub\l(2\gamma_6 +a\gamma_6^\prime \r) + ak^2 \f{\gamma_4+2\gamma_5}{2(1+\Omega) -2\gamma_4}\l(\hub\Omega' +H_0\gamma_2\r) \nonumber\\
 & -a\f{\hub \Omega' + H_0\gamma_2}{4(1+\Omega)+6\gamma_3 +2\gamma_4}\bigg[ -3\f{a^2(\rho_{Q}+P_Q)}{m_0^2} -3a\hub^2\Omega'\l( 4+ \f{\dot{\hub}}{\hub^2} +a\f{\Omega''}{\Omega'}\r) -3a\hub H_0 \l(4\gamma_2+a\gamma_2^\prime\r) \nonumber\\
-& \textcolor{red}{+}\l(9 \gamma_3\textcolor{red}{+}3\gamma_4 \r)\l(\dot{\hub} -\hub^2\r) +k^2\l(\textcolor{red}{-}3\gamma_3-\gamma_4 +4\gamma_5 \r)\bigg]  \nonumber \\
-& +\f{1}{1+\Omega+2\gamma_5}\l( a\hub\Omega' +2\hub\l(\gamma_5+\textcolor{red}{a}\gamma_5^\prime\r) -(1+\Omega)\f{a\hub\Omega' +aH_0\gamma_2}{2(1+\Omega) +3\gamma_3+\gamma_4}\r)\cdot \nonumber\\
-&\cdot\l[-\f{a^2c}{m_0^2}+\f{3}{2}a\hub^2\Omega'-2a^2\textcolor{red}{H_0^2}\gamma_1-4\gamma_6k^2 +\f{3}{2}a\hub H_0\gamma_2 \r] \, , \\
+& +\l(9 \gamma_3+3\gamma_4 \r)\l(\dot{\hub} -\hub^2\r) +k^2\l(-3\gamma_3-\gamma_4 +4\gamma_5 \r)\bigg]  \nonumber \\
+& +\f{1}{1+\Omega+2\gamma_5}\l( a\hub\Omega' +2\hub\l(\gamma_5+a\gamma_5^\prime\r) -(1+\Omega)\f{a\hub\Omega' +aH_0\gamma_2}{2(1+\Omega) +3\gamma_3+\gamma_4}\r)\cdot \nonumber\\
+&\cdot\l[-\f{a^2c}{m_0^2}+\f{3}{2}a\hub^2\Omega'-2a^2H_0^2\gamma_1-4\gamma_6k^2 +\f{3}{2}a\hub H_0\gamma_2 \r] \, , \\
 %
 & \nonumber \\
 %
@@ -413,7 +417,7 @@ We adopt the following convention: $F=\sum \Delta F$ and the same applies to all
 \Delta U=&1, \, & & [\,\, ] \, \nonumber \\
 %
 \Delta V=&\f{1}{2}\f{a\Omega'}{1+\Omega} \,, \hspace{1cm} \Delta \dot{V}=\f{a\hub}{2(1+\Omega)}\l[\Omega' +a\Omega'' -\f{a\Omega'^{\,2}}{1+\Omega} \r] \, , & & [\,\, , \text{Mpc}^{-1}]\nonumber \\ \,
-\textcolor{red}{\Delta\mathcal{Q}}=& 1\,, & & [\,\, ]
+\Delta\mathcal{Q}=& 1\,, & & [\,\, ]
 \end{align}}
 %
 \item[] \underline{$(\delta g^{00})^2$}:\\
@@ -489,8 +493,8 @@ We adopt the following convention: $F=\sum \Delta F$ and the same applies to all
 &\Delta{ N}=\f{2\gamma_5k}{1+\Omega}\left(\dot{\pi}+\hub\pi\right) \, , & &  [\text{Mpc}^{-2}] \, \nonumber\\
 %
 &\Delta\dot{N} = \f{2\gamma_5k}{1+\Omega}\l(\ddot{\pi}+\hub\dot{\pi}+\dot{\hub}\pi\r)+\f{2ak\hub}{1+\Omega}\l(\dot{\pi}+\hub\pi\r)\l[ \gamma_5^\prime-\f{\gamma_5\Omega'}{1+\Omega}\r]  \, ,& &  [\text{Mpc}^{-3}] \,\nonumber\\
-&\textcolor{red}{\Delta\mathcal{Q}= \f{2\gamma_5}{1+\Omega}}\,, & & [\,\, ] \nonumber \\
-&\textcolor{red}{\Delta L= \f{2\gamma_5}{1+\Omega}k^2 \pi}\,.& &  [\text{Mpc}^{-2}]
+&\Delta\mathcal{Q}= \f{2\gamma_5}{1+\Omega}\,, & & [\,\, ] \nonumber \\
+&\Delta L= \f{2\gamma_5}{1+\Omega}k^2 \pi\,.& &  [\text{Mpc}^{-2}]
 \end{align}}
 %
 \item[] \underline{ $\rm(g^{\mu\nu}+n^\mu n^\nu)\partial_\mu\delta g^{00}\partial_\nu \delta g^{00}$}:\\
@@ -568,18 +572,12 @@ then $ \left[ -B_1 - k^2 B_2 \pm \sqrt{B^2 -4(A_1+ k^2 A_2)( C +k^2D_1 + k^4D_2)
 
 Let us notice that all the conditions based on scale dependent relations are enforced  from $k=0$ up to $k=k_{max}$, where $k_{max}$ is the maximum wavenumber that CAMB evolves.
 
-Furthermore, we impose some additional priors on cosmological parameters. These are not related to the EFT framework and are used to help the code deal with very complicated models. 
-\begin{itemize}
-\item {\it Cosmic acceleration prior}:  the standard dark matter prior excludes $\Omega_{\rm dm} = 0$ and dark matter is supposed to behave as a matter fluid. Dark energy is supposed to source cosmic acceleration. In this case we can safely impose that $w_{\rm DE} \leq - 1/3$ at all times.
-\item {\it Dark Energy prior}: we impose the additional prior that $\Omega_{\rm DE} \geq 0$.
-\end{itemize}
-
 The EFTCAMB code allows the user to have full control over the prior that are enforced by means of a set of flags contained in the parameter file \texttt{params$\_$EFT.ini} that will do the following:
 %
 \begin{itemize}
 \item \texttt{EFT$\_$mathematical$\_$stability}: decides whether to enforce requirements of mathematical stability;
 \item \texttt{EFT$\_$physical$\_$stability}: establishes whether to use physical viability conditions;
-\item \texttt{EFTAdditionalPriors}: determines whether to use the additional priors on cosmological parameters;
+\item \texttt{EFT$\_$additional$\_$priors}: determines whether to use model specific priors on cosmological parameters;
 \end{itemize}
 %
 
@@ -596,7 +594,7 @@ We assume that DE perturbations are sourced by matter perturbations at a suffici
 where $\tau_\pi$ is the time at which the code is switching from GR to DE/MG. This scheme is enforced here to speed up models that are too close to GR at early times. 
 
 
-Studying early DE/MG models requires the user to modify the flag \verb|EFTturnonpiInitial| in \verb|EFT_main.f90| to a suitable value. Its default value is set to be  EFTturnonpiInitial=0.01. The  initial conditions for matter components and curvature perturbations are set in the radiation dominated epoch ($a \sim 10^{-8}$). 
+Studying early DE/MG models requires the user to modify the parameter flag \verb|EFTturnonpiInitial| to a suitable value. Its default value is set to be  \verb|EFTturnonpiInitial|=0.01. The  initial conditions for matter components and curvature perturbations are set in the radiation dominated epoch ($a \sim 10^{-8}$). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pure EFT models}\label{Sec:PureEFTmodels}
@@ -644,6 +642,61 @@ Models belonging to this class can be implemented into EFTCAMB following three d
 \end{itemize}
 
 Here we will focus on the pure EFT approach leaving the other options to the specific Sections. To use the code using the EFT approach restricted to Horndeski case, the user has to change the flag \verb|PureEFTHorndeski| setting it to true. Once this has been done, the code will  automatically restrict the number of the involved second order EFT functions according to eq.~(\ref{Horndeski_condition}). This condition will internally  fix the behaviour of the EFT functions $\gamma_4$, $\gamma_5$ and $\gamma_6$ so that the corresponding choices and parameters for these functions will be ignored. At this point the user can choose according to the model he/she wants to investigate, the behaviours of the three remaining EFT functions $\{\gamma_1,\gamma_2,\gamma_3\}$  and  $\{\Omega, w_{DE}\}$ to fix the background. Built-in models for these functions are already present in the code, see Section~\ref{Sec:PureEFTmodels}, as well as the possibility to implement the user own model.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Alternative model-independent parametrizations in the EFT language} \label{Alternative}
+
+Besides the EFT approach, in  literature there are several alternative model-independent parametrizations which allow to describe possible departures from General Relativity which come from a modification at the level of the action or directly by parametrizing the field equations by introducing new functions or parameters. Due to the versatility of the EFT approach and to the large number of DE/MG models that can be described within this framework, it is possible to completely cast most of these model-independent parametrizations in terms of EFT functions.   In this Section we will gradually implement the technical details of such alternative parametrizations. 
+
+\subsection{RPH: ReParametrized Horndeski}\label{RPH}
+
+As already discussed, there are three ways to implement the Horndeski/GG theory in EFTCAMB (See Section~\ref{pureHorndeski}). In the following we want to focus on the
+implementation of the parametrization proposed in~\cite{Bellini:2014fua}, which is a built-in feature of the latest release (v2.0). Hereafter we will refer to this parametrization as ReParametrized Horndeski (RPH) as it is a model-independent parametrization of Horndeski theory in terms  of five functions of time defined in such a way that they  correspond to specific physical properties of the scalar d.o.f.. They correspond to  the expansion history (in terms of $w(a)$) and four functions of time $\{\tilde{M},\alpha_K,\alpha_B,\alpha_T\}$ . There is a fifth function, which is not independent but can  be derived from $\tilde{M}$ and  whose expression reads $\alpha_M= a \tilde{M}^\prime/(1+\tilde{M})$. As it will be clear in the following,  RPH is equivalent to the pure EFT approach.
+
+As described in~\cite{Bellini:2014fua}  the correspondence between these functions and the EFT ones is (in our convention):
+ \begin{eqnarray}
+\f{M_*^2}{m_0^2}=1+ \tilde{M}&=& 1+\Omega+ \gamma_3 \, , \nn \\
+\alpha_K&= & \f{\f{2ca^2}{m_0^2}+4H_0^2\gamma_1a^2}{(1+\Omega+ \gamma_3)\hub^2} \, ,\nn \\
+\alpha_B&=&  +\f{1}{2}\f{a\gamma_2H_0+a\hub\Omega^\prime}{\hub(1+\Omega+ \gamma_3) } \,, \nn \\
+\alpha_T&=& -\f{\gamma_3}{1+\Omega+ \gamma_3} \,.
+\end{eqnarray}
+Notice that we have redefined $\f{M_*^2}{m_0^2}=1+ \tilde{M}$ for numerical reasons. \\
+To implement this parametrization into EFTCAMB we need first to invert the previous definitions in order to calculate $\{\Omega, \gamma_1\gamma_2,\gamma_3\}$ as functions of $\{\tilde{M},\alpha_K,\alpha_B,\alpha_T\}$:
+\begin{align}
+\Omega(a) &= (1+ \tilde{M})\alpha_T+ \tilde{M}\,, \nonumber \\
+\gamma_1(a) &= \f{1}{4H_0^2a^2}\l[\alpha_K(1+ \tilde{M})\hub^2-\f{2ca^2}{m_0^2}\r]\,,  \nonumber \\
+\gamma_2(a) &=  \f{1}{aH_0}\l[+2\alpha_B\hub (1+ \tilde{M})-a\hub\Omega^\prime\r] \,,  \nonumber \\
+\gamma_3(a) &= -\alpha_T(1+ \tilde{M}) \,,  \nonumber \\
+\gamma_4(a) &= -\gamma_3\,.
+\end{align}
+%
+Then we can compute the following derived quantities that are needed for the equations in the code:
+\begin{align}
+\Omega'(a) &=  (1+\tilde{M})\alpha_T^\prime+ \tilde{M}^\prime(\alpha_T+1)\,,  \nonumber \\ 
+\Omega''(a) &= 2\tilde{M}^\prime \alpha_T^\prime + (1+\tilde{M})\alpha_T^{\prime\prime}+\tilde{M}^{\prime\prime}(\alpha_T+1)\,,  \nonumber \\
+\Omega'''(a) &=   3\tilde{M}^{\prime\prime}\alpha_T^\prime+3\tilde{M}^\prime\alpha_T^{\prime\prime}+ (1+\tilde{M})\alpha_T^{\prime\prime\prime}+\tilde{M}^{\prime\prime\prime}(\alpha_T+1)\,,  \nonumber \\
+\gamma_1'(a) &= -\f{2}{a}\gamma_1+\f{1}{4H_0^2a^2}\l[\alpha_K^\prime(1+ \tilde{M})\hub^2+\alpha_K\tilde{M}^\prime\hub^2+2\alpha_K(1+ \tilde{M})\f{\dot{\hub}}{a}-\f{2c^\prime a^2}{m_0^2}-\f{4ca}{m_0^2}\r] \,,  \nonumber \\
+\gamma_2'(a) &=  -\f{\gamma_2}{a} -\f{1}{aH_0}\l[-2(1+ \tilde{M})(\alpha_B^\prime\hub+\alpha_B \f{\dot{\hub}}{a\hub}) -2\alpha_B\hub \tilde{M}^\prime+ \hub\Omega^\prime+\f{\dot{\hub}}{\hub}\Omega^\prime+a\hub\Omega^{\prime\prime}\r] \,,  \nonumber \\
+\gamma_3'(a) &= -(1+ \tilde{M})\alpha_T^\prime- \alpha_T \tilde{M}^\prime\,,  \nonumber \\
+\gamma_4(a) &= -\gamma_3\,,  \nonumber \\
+\gamma_4'(a) &= -\gamma_3^\prime\,,  \nonumber \\
+\gamma_4''(a) &= -\gamma_3^{\prime\prime}= (1+ \tilde{M})\alpha_T^{\prime\prime}+2\alpha_T^\prime \tilde{M}^\prime + \alpha_T \tilde{M}^{\prime\prime} \,,  \nonumber \\
+\gamma_5(a) &= \f{\gamma_3}{2} \,,  \nonumber \\
+\gamma_5'(a) &=  \f{\gamma_3^\prime}{2}\,, \nonumber \\
+\gamma_6(a) &= 0\,,  \nonumber \\
+\gamma_6'(a) &=0 \,.
+\end{align}
+
+To use the  RPH  parametrization of Horndeski models, one has to set \verb|EFTflag=3| as described earlier (see Section~\ref{Sec:Code structure}) and then choose \verb|AltParEFTmodel=1|. Once this has been done, the user has to choose the behaviour for the four RPH functions of time $\{\tilde{M},\alpha_K,\alpha_B,\alpha_T\}$  by acting on the \verb|RPHmassPmodel|, \verb|RPHkineticitymodel|, \verb|RPHbraidingmodel| and \verb|RPHtensormodel| flags and for the expansion history by choosing $w_{DE}$. The built-in models allow to choose a constant (e.g.: $\alpha_K=\alpha_K^0$) and power law (e.g.: $\alpha_K = \alpha_K^0\, a^s$), or the  user can define by him/herself the behaviours for the respective functions according to the model he/she wants to investigate. The name of the parameters are then specified by:
+%
+\begin{itemize}
+\item $\tilde{M}_0 = \verb|RPHmassP0|$, $s = \verb|RPHmassPexp|$;
+\item $\alpha_{K}^0 = \verb|RPHkineticity0|$, $s = \verb|RPHkineticityexp|$;
+\item $\alpha_{B}^0 = \verb|RPHbraiding0|$, $s = \verb|RPHbraidingexp|$;
+\item $\alpha_{T}^0 = \verb|RPHtensor0|$, $s = \verb|RPHtensorexp|$;
+\end{itemize}
+%
+By running parameter space explorations of these models we noticed that the viability priors~\cite{Bellini:2014fua} are particularly aggressive so we suggest to have some ideas of the parameter space of these models before studying them.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Designer Mapping EFT models}\label{Sec:MatchingEFT}
@@ -764,60 +817,6 @@ and their time derivatives can be read from equation~(\ref{Eq:DesignerCLambda}).
 
 The user can select the minimally coupled quintessence models by setting  \verb|mappingEFTmodel=2| in the  designer flag (\verb|EFTflag=2|) as described earlier (see Section~\ref{Sec:Code structure}). Once this has been done, the user has to choose  only the behaviour of $w_{\rm DE}$.
 
-\section{Alternative model-independent parametrizations in the EFT language} \label{Alternative}
-
-Besides the EFT approach, in  literature there are several alternative model-independent parametrizations which allow to describe possible departures from General Relativity which come from a modification at the level of the action or directly by parametrizing the field equations by introducing new functions or parameters. Due to the versatility of the EFT approach and to the large number of DE/MG models that can be described within this framework, it is possible to completely cast most of these model-independent parametrizations in terms of EFT functions.   In this Section we will gradually implement the technical details of such alternative parametrizations. 
-
-\subsection{RPH: ReParametrized Horndeski}\label{RPH}
-
-As already discussed, there are three ways to implement the Horndeski/GG theory in EFTCAMB (See Section~\ref{pureHorndeski}). In the following we want to focus on the
-implementation of the parametrization proposed in~\cite{Bellini:2014fua}, which is a built-in feature of the latest release (v2.0). Hereafter we will refer to this parametrization as ReParametrized Horndeski (RPH) as it is a model-independent parametrization of Horndeski theory in terms  of five functions of time defined in such a way that they  correspond to specific physical properties of the scalar d.o.f.. They correspond to  the expansion history (in terms of $w(a)$) and four functions of time $\{\tilde{M},\alpha_K,\alpha_B,\alpha_T\}$ . There is a fifth function, which is not independent but can  be derived from $\tilde{M}$ and  whose expression reads $\alpha_M= a \tilde{M}^\prime/(1+\tilde{M})$. As it will be clear in the following,  RPH is equivalent to the pure EFT approach.
-
-As described in~\cite{Bellini:2014fua}  the correspondence between these functions and the EFT ones is (in our convention):
- \begin{eqnarray}
-\f{M_*^2}{m_0^2}=1+ \tilde{M}&=& 1+\Omega+ \gamma_3 \, , \nn \\
-\alpha_K&= & \f{\f{2ca^2}{m_0^2}+4H_0^2\gamma_1a^2}{(1+\Omega+ \gamma_3)\hub^2} \, ,\nn \\
-\alpha_B&=&  +\f{1}{2}\f{a\gamma_2H_0+a\hub\Omega^\prime}{\hub(1+\Omega+ \gamma_3) } \,, \nn \\
-\alpha_T&=& -\f{\gamma_3}{1+\Omega+ \gamma_3} \,.
-\end{eqnarray}
-Notice that we have redefined $\f{M_*^2}{m_0^2}=1+ \tilde{M}$ for numerical reasons. \\
-To implement this parametrization into EFTCAMB we need first to invert the previous definitions in order to calculate $\{\Omega, \gamma_1\gamma_2,\gamma_3\}$ as functions of $\{\tilde{M},\alpha_K,\alpha_B,\alpha_T\}$:
-\begin{align}
-\Omega(a) &= (1+ \tilde{M})\alpha_T+ \tilde{M}\,, \nonumber \\
-\gamma_1(a) &= \f{1}{4H_0^2a^2}\l[\alpha_K(1+ \tilde{M})\hub^2-\f{2ca^2}{m_0^2}\r]\,,  \nonumber \\
-\gamma_2(a) &=  \f{1}{aH_0}\l[+2\alpha_B\hub (1+ \tilde{M})-a\hub\Omega^\prime\r] \,,  \nonumber \\
-\gamma_3(a) &= -\alpha_T(1+ \tilde{M}) \,,  \nonumber \\
-\gamma_4(a) &= -\gamma_3\,.
-\end{align}
-%
-Then we can compute the following derived quantities that are needed for the equations in the code:
-\begin{align}
-\Omega'(a) &=  \textcolor{red}{(1+\tilde{M})}\alpha_T^\prime+ \tilde{M}^\prime(\alpha_T+1)\,,  \nonumber \\ 
-\Omega''(a) &= 2\tilde{M}^\prime \alpha_T^\prime + \textcolor{red}{(1+\tilde{M})}\alpha_T^{\prime\prime}+\tilde{M}^{\prime\prime}(\alpha_T+1)\,,  \nonumber \\
-\Omega'''(a) &=   3\tilde{M}^{\prime\prime}\alpha_T^\prime+3\tilde{M}^\prime\alpha_T^{\prime\prime}+ \textcolor{red}{(1+\tilde{M})}\alpha_T^{\prime\prime\prime}+\tilde{M}^{\prime\prime\prime}(\alpha_T+1)\,,  \nonumber \\
-\gamma_1'(a) &= -\f{2}{a}\gamma_1+\f{1}{4H_0^2a^2}\l[\alpha_K^\prime(1+ \tilde{M})\hub^2+\alpha_K\tilde{M}^\prime\hub^2+2\alpha_K(1+ \tilde{M})\f{\dot{\hub}}{a}-\f{2c^\prime a^2}{m_0^2}-\f{4ca}{m_0^2}\r] \,,  \nonumber \\
-\gamma_2'(a) &=  -\f{\gamma_2}{\textcolor{red}{a}} -\f{1}{aH_0}\l[-2(1+ \tilde{M})(\alpha_B^\prime\hub+\alpha_B \f{\dot{\hub}}{a\hub}) -2\alpha_B\hub \tilde{M}^\prime+ \hub\Omega^\prime+\f{\dot{\hub}}{\hub}\Omega^\prime+a\hub\Omega^{\prime\prime}\r] \,,  \nonumber \\
-\gamma_3'(a) &= -(1+ \tilde{M})\alpha_T^\prime- \alpha_T \tilde{M}^\prime\,,  \nonumber \\
-\gamma_4(a) &= -\gamma_3\,,  \nonumber \\
-\gamma_4'(a) &= -\gamma_3^\prime\,,  \nonumber \\
-\gamma_4''(a) &= -\gamma_3^{\prime\prime}= (1+ \tilde{M})\alpha_T^{\prime\prime}+2\alpha_T^\prime \tilde{M}^\prime + \alpha_T \tilde{M}^{\prime\prime} \,,  \nonumber \\
-\gamma_5(a) &= \f{\gamma_3}{2} \,,  \nonumber \\
-\gamma_5'(a) &=  \f{\gamma_3^\prime}{2}\,, \nonumber \\
-\gamma_6(a) &= 0\,,  \nonumber \\
-\gamma_6'(a) &=0 \,.
-\end{align}
-
-To use the  RPH  parametrization of Horndeski models, one has to set \verb|EFTflag=3| as described earlier (see Section~\ref{Sec:Code structure}) and then choose \verb|AltParEFTmodel=1|. Once this has been done, the user has to choose the behaviour for the four RPH functions of time $\{\tilde{M},\alpha_K,\alpha_B,\alpha_T\}$  by acting on the \verb|RPHmassPmodel|, \verb|RPHkineticitymodel|, \verb|RPHbraidingmodel| and \verb|RPHtensormodel| flags and for the expansion history by choosing $w_{DE}$. The built-in models allow to choose a constant (e.g.: $\alpha_K=\alpha_K^0$) and power law (e.g.: $\alpha_K = \alpha_K^0\, a^s$), or the  user can define by him/herself the behaviours for the respective functions according to the model he/she wants to investigate. The name of the parameters are then specified by:
-%
-\begin{itemize}
-\item $\tilde{M}_0 = \verb|RPHmassP0|$, $s = \verb|RPHmassPexp|$;
-\item $\alpha_{K}^0 = \verb|RPHkineticity0|$, $s = \verb|RPHkineticityexp|$;
-\item $\alpha_{B}^0 = \verb|RPHbraiding0|$, $s = \verb|RPHbraidingexp|$;
-\item $\alpha_{T}^0 = \verb|RPHtensor0|$, $s = \verb|RPHtensorexp|$;
-\end{itemize}
-%
-By running parameter space explorations of these models we noticed that the viability priors~\cite{Bellini:2014fua} are particularly aggressive so we suggest to have some ideas of the parameter space of these models before studying them.
-
 \section{Full EFT Mapping}\label{Fullmapping}
 
 As already discussed, the EFT framework offers a unifying language for all single field models of DE and MG; once a given model is mapped into the EFT language, i.e. the corresponding EFT functions are determined, one does not need to derive  lengthy  perturbation equations specific for that model. Rather, the general perturbation equations for the EFT action, which are implemented in EFTCAMB, can be used. All the necessary input are the background evolution and the EFT functions as functions of the scale factor. There are two ways in which the latter can be determined: via the designer approach discussed in the previous Section, or solving for the background evolution of the given model, determining the Hubble parameter and  the time evolution of the EFT functions. Once these are worked out, they are passed to the main code  which solves  the full perturbative equations.
@@ -877,10 +876,18 @@ These conditions are imposed by default and they become viability priors when us
 
 To investigate  the low-energy  Ho\v rava gravity, the user has to set \verb|EFTflag=4| as described earlier (see Section~\ref{Sec:Code structure}) and then choose \verb|FullmappingEFTmodel=1|. At this point the user can study the model for which all the three parameters appearing in the action can vary. If one is interested in investigating the case for which the theory evades the Solar System constraints the user has to set \verb|HoravaSolarSystem=2|. For details about the physics of the two models see~\cite{Frusciante:2015maa}.
 
+\newpage 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Change Log}\label{Sec:ChangeLog}
 %
+
 \begin{itemize}
+\item Version 3.0 (Sep17):
+\begin{itemize}
+\item General restructuring of the notes to reflect new code structure;
+\item Several minor typo fixed;
+\end{itemize}
 \item Version 2.0 (Oct15):
 \begin{itemize}
 \item EFTCAMB/EFTCosmoMC compatible with the Planck likelihood--PLC2.0;
@@ -907,14 +914,17 @@ To investigate  the low-energy  Ho\v rava gravity, the user has to set \verb|EFT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \acknowledgments
 %
-We are grateful to Carlo Baccigalupi, Nicola Bartolo, Jolyon Bloomfield, Matteo Calabrese, Paolo Creminelli, Antonio De Felice, J\'er\^{o}me Gleyzes, Alireza Hojjati, Martin Kunz, Stefano Liberati, Matteo Martinelli, Sabino Matarrese, Ali Narimani, Valeria Pettorino, Federico Piazza, Levon Pogosian, Filippo Vernizzi, Bo Yu and Gong-Bo Zhao for useful conversations. We are indebted to Luca Heltai and Riccardo Valdarnini for help with numerical algorithms and to Jorgos Papadomanolakis and Daniele Vernieri for help in developing some theoretical aspects.
+We are grateful to Carlo Baccigalupi, Nicola Bartolo, Jolyon Bloomfield, Matteo Calabrese, Paolo Creminelli, Antonio De Felice, J\'er\^{o}me Gleyzes, Alireza Hojjati, Martin Kunz, Stefano Liberati, Matteo Martinelli, Sabino Matarrese, Ali Narimani, Simone Peirone, Valeria Pettorino, Federico Piazza, Levon Pogosian, Filippo Vernizzi, Bo Yu and Gong-Bo Zhao for useful conversations. We are indebted to Luca Heltai and Riccardo Valdarnini for help with numerical algorithms and to Jorgos Papadomanolakis and Daniele Vernieri for help in developing some theoretical aspects.
 
-The research of BH is supported by the Dutch Foundation for Fundamental Research on Matter (FOM); 
-The research of MR is supported by the SISSA PhD Fellowship and the INFN-INDARK initiative; 
-The research of NF is currently supported by the European Research Council under the European Community's Seventh Framework Programme (FP7/2007-2013, Grant Agreement No.~307934). The  work related to previous versions of these notes was supported by: the European Research Council under the European Union’s Seventh Framework Programme (FP7/2007-2013) / ERC Grant Agreement n. 306425 “Challenging General Relativity”, the SISSA PhD Fellowship and INFN; 
+The research of BH is partially supported by the Chinese National Youth Thousand Talents Program, the Fundamental Research Funds for the Central Universities under the reference No. 310421107 and Beijing Normal University Grant under the reference No. 312232102. The work related to previous versions of these notes was supported by: the Dutch Foundation for Fundamental Research on Matter (FOM).
+The research of MR is supported by U.S. Dept. of Energy contract DE-FG02-13ER41958. The work related to previous versions of these notes was supported by: the SISSA PhD Fellowship and the INFN-INDARK initiative (09/2012-08/2014).
+The research of NF is currently supported by  Funda\c{c}\~{a}o para a  Ci\^{e}ncia e a Tecnologia (FCT) through national funds  (UID/FIS/04434/2013) and by FEDER through COMPETE2020  (POCI-01-0145-FEDER-007672). The  work related to previous versions of these notes was supported by: the European Research Council under the European Community's Seventh Framework Programme (FP7/2007-2013, Grant Agreement No.~307934), the European Research Council under the European Union’s Seventh Framework Programme (FP7/2007-2013) / ERC Grant Agreement n. 306425 “Challenging General Relativity”, the SISSA PhD Fellowship and INFN. 
 The research of AS is currently supported by the Netherlands Organization for Scientific Research (NWO/OCW) and the D-ITP consortium, a program of the Netherlands Organisation for Scientific Research (NWO) that is funded by the Dutch Ministry of Education, Culture and Science (OCW). The  work related to previous versions of these notes was supported by the SISSA Excellence Grant and the INFN-INDARK  initiative (09/2012-08/2014).
+NF and AS acknowledge the COST Action  (CANTATA/CA15117), supported by COST (European Cooperation in  Science and Technology).
 
 %
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -993,6 +1003,43 @@ http://camb.info \,.
   %%CITATION = ASTRO-PH/0205436;%%
   %1312 citations counted in INSPIRE as of 25 Mar 2014 
 	
+	%\cite{Zumalacarregui:2016pph}
+\bibitem{Zumalacarregui:2016pph} 
+  M.~Zumalacárregui, E.~Bellini, I.~Sawicki, J.~Lesgourgues and P.~G.~Ferreira,
+  %``hi_class: Horndeski in the Cosmic Linear Anisotropy Solving System,''
+  JCAP {\bf 1708}, no. 08, 019 (2017)
+  doi:10.1088/1475-7516/2017/08/019
+  [arXiv:1605.06102 [astro-ph.CO]].
+  %%CITATION = doi:10.1088/1475-7516/2017/08/019;%%
+  %24 citations counted in INSPIRE as of 27 Sep 2017
+ 
+ %\cite{Huang:2015srv}
+\bibitem{Huang:2015srv} 
+  Z.~Huang,
+  %``Observational effects of a running Planck mass,''
+  Phys.\ Rev.\ D {\bf 93}, no. 4, 043538 (2016)
+  doi:10.1103/PhysRevD.93.043538
+  [arXiv:1511.02808 [astro-ph.CO]].
+  %%CITATION = doi:10.1103/PhysRevD.93.043538;%%
+  %8 citations counted in INSPIRE as of 27 Sep 2017
+  
+%\cite{Bellini:2017avd}
+\bibitem{Bellini:2017avd} 
+  E.~Bellini {\it et al.},
+  %``A comparison of Einstein-Boltzmann solvers for testing General Relativity,''
+  arXiv:1709.09135 [astro-ph.CO].
+  %%CITATION = ARXIV:1709.09135;%%	
+ 
+ %\cite{Blas:2012vn}
+\bibitem{Blas:2012vn} 
+  D.~Blas, M.~M.~Ivanov and S.~Sibiryakov,
+  %``Testing Lorentz invariance of dark matter,''
+  JCAP {\bf 1210}, 057 (2012)
+  doi:10.1088/1475-7516/2012/10/057
+  [arXiv:1209.0464 [astro-ph.CO]].
+  %%CITATION = doi:10.1088/1475-7516/2012/10/057;%%
+  %33 citations counted in INSPIRE as of 27 Sep 2017
+  
 	%\cite{Horndeski:1974wa}
 \bibitem{Horndeski:1974wa} 
   G.~W.~Horndeski,
@@ -1044,9 +1091,6 @@ http://cosmologist.info/notes/CAMB.pdf
   [astro-ph/0208512].
   %%CITATION = ASTRO-PH/0208512;%%
   %686 citations counted in INSPIRE as of 05 Nov 2013
-
-
-
 
 %\cite{Jassal:2004ej}
 \bibitem{Jassal:2004ej} 
